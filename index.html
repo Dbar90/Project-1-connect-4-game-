@@ -5,67 +5,85 @@
     <title>Connect Four!</title>
   </head>
   <body>
-    <h1>Connect Four!</h1>
-    <div class="rules">
-      <p>Rules for Connect Four</p>
-      
+    <header>
+      <h1>Connect Four!
+        <br>
+        <button class="newgame" >New Game</button>
+        <button class="about" >About Game</button>
+        <div class="status">status</div>
+      </h1>
+    </header>
+    <div class="container">
+      <div class="rules">
+        <span>About the Game:</span>
+        <br>
+        <span>Description and Objectives:</span>
+        <ul>
+          <li>Be the first player to connect four of your corresponding 'chips' in a row.</li>
+          <li>Match your 'chips' horizontally.</li>
+          <li>Match your 'chips' vertically.</li>
+          <li>Match your 'chips' diagonally.</li>
+          <li>The player sitting on the left goes first!</li>
+        </ul>
+        <span>How to play:</span>
+        <ul>
+          <li>Each player will take a turn dropping their 'chips' into one of the seven columns.</li>
+          <li>To do this simply mouseover whichever column you wish to drop your 'chip' into.</li>
+          <li>Then click the button and your 'chip' will fall into the first available open spot of that column.</li>
+        </ul>
+      </div>
+      <div class="game-board">
+        <button class="drop-button"></button>
+        <button class="drop-button"></button>
+        <button class="drop-button"></button>
+        <button class="drop-button"></button>
+        <button class="drop-button"></button>
+        <button class="drop-button"></button>
+        <button class="drop-button"></button>
+        <div class="tile row-0 col-0"></div>
+        <div class="tile row-0 col-1"></div>
+        <div class="tile row-0 col-2"></div>
+        <div class="tile row-0 col-3"></div>
+        <div class="tile row-0 col-4"></div>
+        <div class="tile row-0 col-5"></div>
+        <div class="tile row-0 col-6"></div>
+        <div class="tile row-1 col-0"></div>
+        <div class="tile row-1 col-1"></div>
+        <div class="tile row-1 col-2"></div>
+        <div class="tile row-1 col-3"></div>
+        <div class="tile row-1 col-4"></div>
+        <div class="tile row-1 col-5"></div>
+        <div class="tile row-1 col-6"></div>
+        <div class="tile row-2 col-0"></div>
+        <div class="tile row-2 col-1"></div>
+        <div class="tile row-2 col-2"></div>
+        <div class="tile row-2 col-3"></div>
+        <div class="tile row-2 col-4"></div>
+        <div class="tile row-2 col-5"></div>
+        <div class="tile row-2 col-6"></div>
+        <div class="tile row-3 col-0"></div>
+        <div class="tile row-3 col-1"></div>
+        <div class="tile row-3 col-2"></div>
+        <div class="tile row-3 col-3"></div>
+        <div class="tile row-3 col-4"></div>
+        <div class="tile row-3 col-5"></div>
+        <div class="tile row-3 col-6"></div>
+        <div class="tile row-4 col-0"></div>
+        <div class="tile row-4 col-1"></div>
+        <div class="tile row-4 col-2"></div>
+        <div class="tile row-4 col-3"></div>
+        <div class="tile row-4 col-4"></div>
+        <div class="tile row-4 col-5"></div>
+        <div class="tile row-4 col-6"></div>
+        <div class="tile row-5 col-0"></div>
+        <div class="tile row-5 col-1"></div>
+        <div class="tile row-5 col-2"></div>
+        <div class="tile row-5 col-3"></div>
+        <div class="tile row-5 col-4"></div>
+        <div class="tile row-5 col-5"></div>
+        <div class="tile row-5 col-6"></div>
+      </div>
     </div>
-    <div class="game-board">
-      <button class="drop-button"></button>
-      <button class="drop-button"></button>
-      <button class="drop-button"></button>
-      <button class="drop-button"></button>
-      <button class="drop-button"></button>
-      <button class="drop-button"></button>
-      <button class="drop-button"></button>
-      <div class="tile row-0 col-0"></div>
-      <div class="tile row-0 col-1"></div>
-      <div class="tile row-0 col-2"></div>
-      <div class="tile row-0 col-3"></div>
-      <div class="tile row-0 col-4"></div>
-      <div class="tile row-0 col-5"></div>
-      <div class="tile row-0 col-6"></div>
-      <div class="tile row-1 col-0"></div>
-      <div class="tile row-1 col-1"></div>
-      <div class="tile row-1 col-2"></div>
-      <div class="tile row-1 col-3"></div>
-      <div class="tile row-1 col-4"></div>
-      <div class="tile row-1 col-5"></div>
-      <div class="tile row-1 col-6"></div>
-      <div class="tile row-2 col-0"></div>
-      <div class="tile row-2 col-1"></div>
-      <div class="tile row-2 col-2"></div>
-      <div class="tile row-2 col-3"></div>
-      <div class="tile row-2 col-4"></div>
-      <div class="tile row-2 col-5"></div>
-      <div class="tile row-2 col-6"></div>
-      <div class="tile row-3 col-0"></div>
-      <div class="tile row-3 col-1"></div>
-      <div class="tile row-3 col-2"></div>
-      <div class="tile row-3 col-3"></div>
-      <div class="tile row-3 col-4"></div>
-      <div class="tile row-3 col-5"></div>
-      <div class="tile row-3 col-6"></div>
-      <div class="tile row-4 col-0"></div>
-      <div class="tile row-4 col-1"></div>
-      <div class="tile row-4 col-2"></div>
-      <div class="tile row-4 col-3"></div>
-      <div class="tile row-4 col-4"></div>
-      <div class="tile row-4 col-5"></div>
-      <div class="tile row-4 col-6"></div>
-      <div class="tile row-5 col-0"></div>
-      <div class="tile row-5 col-1"></div>
-      <div class="tile row-5 col-2"></div>
-      <div class="tile row-5 col-3"></div>
-      <div class="tile row-5 col-4"></div>
-      <div class="tile row-5 col-5"></div>
-      <div class="tile row-5 col-6"></div>
-
-    </div>
-    <footer>
-      <button class="newgame" >New Game</button>
-      <div class="stats">status</div>
-    </footer>
     <script type="text/javascript" src="js/app.js"></script>
   </body>
 </html>
