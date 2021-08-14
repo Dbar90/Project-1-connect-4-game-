@@ -43,10 +43,9 @@ h1 {
   align-items: center;
   width: 100px;
   border: 1px solid black;
-  font-size: 20px;
 }
 
-/* .drop-button:after {
+.drop-button:after {
   background: white;
   border-radius: 50%;
   border: 3px solid black;
@@ -57,11 +56,11 @@ h1 {
   width: 75px;
   line-height: 75px;
   font-size: 15px;
-} */
+}
 
-/* .drop-button:hover::after {
-  background-color: yellow;
-} */
+.drop-button:hover:after {
+  background-color: ;
+}
 
 footer {
   display: flex;
