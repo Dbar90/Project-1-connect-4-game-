@@ -34,7 +34,7 @@ h1 {
   width: 75px;
 }
 
-.drop-button {
+.drop {
   align-items: center;
   background: royalblue;
   display: flex;
@@ -45,7 +45,7 @@ h1 {
   border: 1px solid black;
 }
 
-.drop-button:after {
+.drop:after {
   background: white;
   border-radius: 50%;
   border: 3px solid black;
