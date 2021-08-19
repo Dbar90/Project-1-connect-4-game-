@@ -39,6 +39,9 @@ const columns = [column0, column1, column2, column3, column4, column5, column6]
 let yellowIsNext = true
 
 //Functions
+
+
+
 const getClassListArray = (tile) => {
     const classList = tile.classList
     return [...classList]
@@ -78,6 +81,13 @@ const handleTileDropper = (e) => {
   } else {
     openTile.classList.add('red')
   }
+  yellowIsNext = !yellowIsNext
+  const dropper = dropperArray[colIndex]
+  if (yellowIsNext) {
+    styleElem.innerHTML = '.drop:hover:after {background: yellow;}'
+  } else {
+    styleElem.innerHTML = '.drop:hover:after {background: red;}'
+  }
 }
 
 // const handleTileMouseOver = (e) => {
@@ -112,7 +122,6 @@ for (const dropper of dropperArray) {
     } else {
       styleElem.innerHTML = '.drop:hover:after {background: red;}'
     }
-
   })
   dropper.addEventListener('mouseout', ()=> {
     styleElem.innerHTML = '.drop:hover:after {background: white;}'
