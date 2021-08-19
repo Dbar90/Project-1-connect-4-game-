@@ -35,6 +35,9 @@ const column5 = [allTiles[40], allTiles[33], allTiles[26], allTiles[19], allTile
 const column6 = [allTiles[41], allTiles[34], allTiles[27], allTiles[20], allTiles[13], allTiles[6], dropper[6]]
 const columns = [column0, column1, column2, column3, column4, column5, column6]
 
+
+let yellowIsNext = true
+
 //Functions
 const getClassListArray = (tile) => {
     const classList = tile.classList
@@ -56,7 +59,6 @@ const getTileLocation = (tile) => {
 const firstTileCol = (colIndex) => {
   const column = columns[colIndex]
   const columnWithoutDrop = column.slice(0, 6)
-  console.log(columnWithoutDrop)
   for (const tile of column) {
     const classList = getClassListArray(tile)
     if (!classList.includes('yellow') && !classList.includes('red')) {
@@ -70,21 +72,31 @@ const handleTileDropper = (e) => {
   const tile = e.target
   const [rowIndex, colIndex] = getTileLocation(tile)
   const openTile = firstTileCol(colIndex)
-  console.log()
-}
-
-const handleTileMouseOver = (e) => {
-  const tile = e.target
-  const [rowIndex, colIndex] = getTileLocation(tile)
-}
-
-
-
-for (const row of rows) {
-  for (const tile of row) {
-    tile.addEventListener('mouseover', handleTileMouseOver)
+  if (!openTile) return
+  if (yellowIsNext) {
+    openTile.classList.add('yellow')
+  } else {
+    openTile.classList.add('red')
   }
 }
+
+// const handleTileMouseOver = (e) => {
+//   const tile = e.target
+//   const [rowIndex, colIndex] = getTileLocation(tile)
+//   const dropper = dropperArray[colIndex]
+//   if (yellowIsNext) {
+//     dropper.classList.add('yellow')
+//   } else {dropper.classList.add('red')
+//  }
+// }
+//
+//
+//
+// for (const row of rows) {
+//   for (const tile of row) {
+//     tile.addEventListener('mouseover', handleTileMouseOver)
+//   }
+// }
 
 
 
@@ -92,10 +104,15 @@ for (const row of rows) {
 
 
 //Event Listeners:
-//Drop Buttons
+// Drop Buttons
 for (const dropper of dropperArray) {
   dropper.addEventListener('mouseover', ()=> {
-    styleElem.innerHTML = '.drop:hover:after {background: red;}'
+    if (yellowIsNext) {
+      styleElem.innerHTML = '.drop:hover:after {background: yellow;}'
+    } else {
+      styleElem.innerHTML = '.drop:hover:after {background: red;}'
+    }
+
   })
   dropper.addEventListener('mouseout', ()=> {
     styleElem.innerHTML = '.drop:hover:after {background: white;}'

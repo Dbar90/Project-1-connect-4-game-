@@ -34,6 +34,22 @@ h1 {
   width: 75px;
 }
 
+.tile:not(.drop).red::after {
+  background: red;
+}
+
+.tile:not(.drop).yellow::after {
+  background:yellow;
+}
+
+.tile:not(.drop).red.win {
+  background: red;
+}
+
+.tile:not(.drop).yellow.win {
+  background: yellow;
+}
+
 .drop {
   align-items: center;
   background: royalblue;
