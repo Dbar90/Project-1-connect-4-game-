@@ -25,7 +25,7 @@ h1 {
   width: 100px;
 }
 
-.tile:after {
+.tile::after {
   background: white;
   border-radius: 50%;
   border: 3px solid black;
@@ -34,23 +34,23 @@ h1 {
   width: 75px;
 }
 
-.tile:not(.drop).red::after {
+.tile:not(.row-top).red::after {
   background: red;
 }
 
-.tile:not(.drop).yellow::after {
+.tile:not(.row-top).yellow::after {
   background:yellow;
 }
 
-.tile:not(.drop).red.win {
+.tile:not(.row-top).red.win {
   background: red;
 }
 
-.tile:not(.drop).yellow.win {
+.tile:not(.row-top).yellow.win {
   background: yellow;
 }
 
-.drop {
+.tile.row-top {
   align-items: center;
   background: royalblue;
   display: flex;
@@ -61,7 +61,7 @@ h1 {
   border: 1px solid black;
 }
 
-.drop:after {
+.tile.row-top::after {
   background: white;
   border-radius: 50%;
   border: 3px solid black;
@@ -74,8 +74,12 @@ h1 {
   font-size: 15px;
 }
 
-.drop-button:hover:after {
-  background-color: white;
+.tile.row-top.red::after {
+  background: red;
+}
+
+.tile.row-top.yellow::after {
+  background: yellow;
 }
 
 footer {

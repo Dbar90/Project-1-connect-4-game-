@@ -1,7 +1,7 @@
 console.log("Connect Four")
 //DOM Elements:
 //Drop Buttons
-const dropper = document.querySelectorAll('.drop')
+const dropper = document.querySelectorAll('.tile.row-top')
 const styleElem = document.head.appendChild(document.createElement('style'))
 
 //About Game Buttons
@@ -9,7 +9,7 @@ const rules = document.querySelector('.rules')
 const about = document.querySelector('.about')
 
 //Tile Elements
-const allTiles = document.querySelectorAll('.tile:not(.drop)')
+const allTiles = document.querySelectorAll('.tile:not(.row-top)')
 
 
 //Arrays:
@@ -35,13 +35,10 @@ const column5 = [allTiles[40], allTiles[33], allTiles[26], allTiles[19], allTile
 const column6 = [allTiles[41], allTiles[34], allTiles[27], allTiles[20], allTiles[13], allTiles[6], dropper[6]]
 const columns = [column0, column1, column2, column3, column4, column5, column6]
 
-
+let gameIsLive = true
 let yellowIsNext = true
 
 //Functions
-
-
-
 const getClassListArray = (tile) => {
     const classList = tile.classList
     return [...classList]
@@ -58,11 +55,10 @@ const getTileLocation = (tile) => {
     return [rowNumber, colNumber]
 }
 
-
 const firstTileCol = (colIndex) => {
   const column = columns[colIndex]
   const columnWithoutDrop = column.slice(0, 6)
-  for (const tile of column) {
+  for (const tile of columnWithoutDrop) {
     const classList = getClassListArray(tile)
     if (!classList.includes('yellow') && !classList.includes('red')) {
         return tile
@@ -70,6 +66,65 @@ const firstTileCol = (colIndex) => {
   }
   return null
 }
+
+const getColorOfTile = (tile) => {
+  const classList = getClassListArray(tile)
+  if (classList.includes('yellow')) {
+    return 'yellow'
+  }
+  if (classList.includes('red')) {
+    return 'red'
+}
+  return null
+}
+
+const checkWinningTiles = (tiles) => {
+  if (tiles.length < 4) return
+    gameIsLive = false
+    for (const tile of tiles) {
+    tile.classList.add('win')
+  }
+}
+
+const checkStatusOfGame = (tile) => {
+  const color = getColorOfTile(tile)
+  if (!color) return
+  const [rowIndex, colIndex] = getTileLocation(tile)
+  let winningTiles = [tile]
+  let rowToCheck = rowIndex
+  let colToCheck = colIndex - 1
+  while (colToCheck >= 0) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      colToCheck--
+    } else {
+      break
+    }
+  }
+  colToCheck = colIndex + 1
+  while (colToCheck <= 6) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      colToCheck++
+    } else {
+      break
+    }
+  }
+  checkWinningTiles(winningTiles)
+}
+
+
+
+const clearColorFromButton = (colIndex) => {
+  const dropper = dropperArray[colIndex]
+  dropper.classList.remove('yellow')
+  dropper.classList.remove('red')
+}
+
+
+
 
 const handleTileDropper = (e) => {
   const tile = e.target
@@ -82,33 +137,15 @@ const handleTileDropper = (e) => {
     openTile.classList.add('red')
   }
   yellowIsNext = !yellowIsNext
+  clearColorFromButton(colIndex)
   const dropper = dropperArray[colIndex]
   if (yellowIsNext) {
-    styleElem.innerHTML = '.drop:hover:after {background: yellow;}'
+    dropper.classList.add('yellow')
   } else {
-    styleElem.innerHTML = '.drop:hover:after {background: red;}'
+    dropper.classList.add('red')
   }
+  checkStatusOfGame(openTile)
 }
-
-// const handleTileMouseOver = (e) => {
-//   const tile = e.target
-//   const [rowIndex, colIndex] = getTileLocation(tile)
-//   const dropper = dropperArray[colIndex]
-//   if (yellowIsNext) {
-//     dropper.classList.add('yellow')
-//   } else {dropper.classList.add('red')
-//  }
-// }
-//
-//
-//
-// for (const row of rows) {
-//   for (const tile of row) {
-//     tile.addEventListener('mouseover', handleTileMouseOver)
-//   }
-// }
-
-
 
 
 
@@ -118,22 +155,19 @@ const handleTileDropper = (e) => {
 for (const dropper of dropperArray) {
   dropper.addEventListener('mouseover', ()=> {
     if (yellowIsNext) {
-      styleElem.innerHTML = '.drop:hover:after {background: yellow;}'
+      dropper.classList.add('yellow')
     } else {
-      styleElem.innerHTML = '.drop:hover:after {background: red;}'
+      dropper.classList.add('red')
     }
   })
   dropper.addEventListener('mouseout', ()=> {
-    styleElem.innerHTML = '.drop:hover:after {background: white;}'
+    dropper.classList.remove('yellow')
+    dropper.classList.remove('red')
   })
 }
 
 for (const dropper of dropperArray) {
-  for (const row of rows) {
-    for (const tile of row) {
       dropper.addEventListener('click', handleTileDropper)
-    }
-  }
 }
 //About Game Button
 about.addEventListener('click', ()=> {
