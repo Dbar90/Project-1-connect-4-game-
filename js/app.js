@@ -124,8 +124,9 @@ const checkStatusOfGame = (tile) => {
   }
   let fourInARow = checkWinningTiles(winningTiles)
   if (fourInARow) return
+
   winningTiles = [tile]
-  rowToCheck = rowIndex -1
+  rowToCheck = rowIndex - 1
   colToCheck = colIndex
   while (rowToCheck >= 0) {
     const tileToCheck = rows[rowToCheck][colToCheck]
@@ -142,6 +143,62 @@ const checkStatusOfGame = (tile) => {
     if (getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck++
+    } else {
+      break
+    }
+  }
+  fourInARow = checkWinningTiles(winningTiles)
+  if (fourInARow) return
+
+  winningTiles = [tile]
+  rowToCheck = rowIndex + 1
+  colToCheck = colIndex - 1
+  while (colToCheck >= 0 && rowToCheck <= 5) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      rowToCheck++
+      colToCheck--
+    } else {
+      break
+    }
+  }
+  rowToCheck = rowIndex - 1
+  colToCheck = colIndex + 1
+  while (colToCheck <= 6 && rowToCheck >= 0) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      rowToCheck--
+      colToCheck++
+    } else {
+      break
+    }
+  }
+  fourInARow = checkWinningTiles(winningTiles)
+  if (fourInARow) return
+
+  winningTiles = [tile]
+  rowToCheck = rowIndex - 1
+  colToCheck = colIndex - 1
+  while (colToCheck >= 0 && rowToCheck >= 0) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      rowToCheck--
+      colToCheck--
+    } else {
+      break
+    }
+  }
+  rowToCheck = rowIndex + 1
+  colToCheck = colIndex + 1
+  while (colToCheck <= 6 && rowToCheck <= 5) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      rowToCheck++
+      colToCheck++
     } else {
       break
     }
