@@ -39,17 +39,18 @@ const column5 = [allTiles[40], allTiles[33], allTiles[26], allTiles[19], allTile
 const column6 = [allTiles[41], allTiles[34], allTiles[27], allTiles[20], allTiles[13], allTiles[6], dropper[6]]
 const columns = [column0, column1, column2, column3, column4, column5, column6]
 
-let gameIsLive = false
-let yellowIsNext = true
+const game = {
+gameIsLive:false,
+yellowIsNext:true,
 
-//Functions
-const getClassListArray = (tile) => {
+
+ getClassListArray(tile) {
     const classList = tile.classList
     return [...classList]
-}
+},
 
-const getTileLocation = (tile) => {
-    const classList = getClassListArray(tile)
+getTileLocation(tile) {
+    const classList = game.getClassListArray(tile)
     const rowClass = classList.find(className => className.includes('row'))
     const colClass = classList.find(className => className.includes('col'))
     const rowIndex = rowClass[4]
@@ -57,22 +58,22 @@ const getTileLocation = (tile) => {
     const rowNumber = parseInt(rowIndex, 10)
     const colNumber = parseInt(colIndex, 10)
     return [rowNumber, colNumber]
-}
+},
 
-const firstOpenTileCol = (colIndex) => {
+firstOpenTileCol(colIndex) {
   const column = columns[colIndex]
   const columnWithoutDrop = column.slice(0, 6)
   for (const tile of columnWithoutDrop) {
-    const classList = getClassListArray(tile)
+    const classList = game.getClassListArray(tile)
     if (!classList.includes('yellow') && !classList.includes('red')) {
         return tile
     }
   }
   return null
-}
+},
 
-const getColorOfTile = (tile) => {
-  const classList = getClassListArray(tile)
+getColorOfTile(tile) {
+  const classList = game.getClassListArray(tile)
   if (classList.includes('yellow')) {
     return 'yellow'
   }
@@ -80,9 +81,9 @@ const getColorOfTile = (tile) => {
     return 'red'
 }
   return null
-}
+},
 
-const checkWinningTiles = (tiles) => {
+checkWinningTiles(tiles) {
   if (tiles.length < 4) return false
     gameIsLive = false
     for (const tile of tiles) {
@@ -94,18 +95,18 @@ const checkWinningTiles = (tiles) => {
     }
   }
   return true
-}
+},
 
-const checkStatusOfGame = (tile) => {
-  const color = getColorOfTile(tile)
+checkStatusOfGame(tile) {
+  const color = game.getColorOfTile(tile)
   if (!color) return
-  const [rowIndex, colIndex] = getTileLocation(tile)
+  const [rowIndex, colIndex] = game.getTileLocation(tile)
   let winningTiles = [tile]
   let rowToCheck = rowIndex
   let colToCheck = colIndex - 1
   while (colToCheck >= 0) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       colToCheck--
     } else {
@@ -115,14 +116,14 @@ const checkStatusOfGame = (tile) => {
   colToCheck = colIndex + 1
   while (colToCheck <= 6) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       colToCheck++
     } else {
       break
     }
   }
-  let fourInARow = checkWinningTiles(winningTiles)
+  let fourInARow = game.checkWinningTiles(winningTiles)
   if (fourInARow) return
 
   winningTiles = [tile]
@@ -130,7 +131,7 @@ const checkStatusOfGame = (tile) => {
   colToCheck = colIndex
   while (rowToCheck >= 0) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck--
     } else {
@@ -140,14 +141,14 @@ const checkStatusOfGame = (tile) => {
   rowToCheck = rowIndex + 1
   while (rowToCheck <= 5) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck++
     } else {
       break
     }
   }
-  fourInARow = checkWinningTiles(winningTiles)
+  fourInARow = game.checkWinningTiles(winningTiles)
   if (fourInARow) return
 
   winningTiles = [tile]
@@ -155,7 +156,7 @@ const checkStatusOfGame = (tile) => {
   colToCheck = colIndex - 1
   while (colToCheck >= 0 && rowToCheck <= 5) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck++
       colToCheck--
@@ -167,7 +168,7 @@ const checkStatusOfGame = (tile) => {
   colToCheck = colIndex + 1
   while (colToCheck <= 6 && rowToCheck >= 0) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck--
       colToCheck++
@@ -175,7 +176,7 @@ const checkStatusOfGame = (tile) => {
       break
     }
   }
-  fourInARow = checkWinningTiles(winningTiles)
+  fourInARow = game.checkWinningTiles(winningTiles)
   if (fourInARow) return
 
   winningTiles = [tile]
@@ -183,7 +184,7 @@ const checkStatusOfGame = (tile) => {
   colToCheck = colIndex - 1
   while (colToCheck >= 0 && rowToCheck >= 0) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck--
       colToCheck--
@@ -195,7 +196,7 @@ const checkStatusOfGame = (tile) => {
   colToCheck = colIndex + 1
   while (colToCheck <= 6 && rowToCheck <= 5) {
     const tileToCheck = rows[rowToCheck][colToCheck]
-    if (getColorOfTile(tileToCheck) === color) {
+    if (game.getColorOfTile(tileToCheck) === color) {
       winningTiles.push(tileToCheck)
       rowToCheck++
       colToCheck++
@@ -203,13 +204,13 @@ const checkStatusOfGame = (tile) => {
       break
     }
   }
-  fourInARow = checkWinningTiles(winningTiles)
+  fourInARow = game.checkWinningTiles(winningTiles)
   if (fourInARow) return
 
   const rowsWithOutTop = rows.slice(0, 6)
   for (const row of rowsWithOutTop) {
     for (const tile of row) {
-      const classList = getClassListArray(tile)
+      const classList = game.getClassListArray(tile)
       if (!classList.includes('yellow') && !classList.includes('red')) {
         return
       }
@@ -217,43 +218,43 @@ const checkStatusOfGame = (tile) => {
   }
   gameIsLive = false
   status.innerHTML = 'Game is a tie!'
-}
+},
 
 
 
-const clearColorFromButton = (colIndex) => {
+clearColorFromButton(colIndex) {
   const dropper = dropperArray[colIndex]
   dropper.classList.remove('yellow')
   dropper.classList.remove('red')
-}
+},
 
-const playerTurn = () => {
+playerTurn() {
   if (gameIsLive)
     if (yellowIsNext) {
       status.innerHTML = "It is yellow player's turn!"
     } else {
       status.innerHTML = "It is red player's turn!"
     }
-  }
+  },
 
 
 
-const handleTileDropper = (e) => {
+handleTileDropper(e) {
   if (!gameIsLive) return
   const tile = e.target
-  const [rowIndex, colIndex] = getTileLocation(tile)
-  const openTile = firstOpenTileCol(colIndex)
+  const [rowIndex, colIndex] = game.getTileLocation(tile)
+  const openTile = game.firstOpenTileCol(colIndex)
   if (!openTile) return
   if (yellowIsNext) {
     openTile.classList.add('yellow')
   } else {
     openTile.classList.add('red')
   }
-  checkStatusOfGame(openTile)
+  game.checkStatusOfGame(openTile)
   yellowIsNext = !yellowIsNext
-  clearColorFromButton(colIndex)
+  game.clearColorFromButton(colIndex)
   if (gameIsLive) {
-    playerTurn()
+    game.playerTurn()
     const dropper = dropperArray[colIndex]
     if (yellowIsNext) {
       dropper.classList.add('yellow')
@@ -261,34 +262,34 @@ const handleTileDropper = (e) => {
       dropper.classList.add('red')
     }
   }
-}
+},
 
-const buttonMouseOver = (e) => {
-  if (!gameIsLive) return
-  const tile = e.target
-  const [rowIndex, colIndex] = getTileLocation(tile)
-  const dropper = dropperArray[colIndex]
-  if (yellowIsNext) {
-    dropper.classList.add('yellow')
-  } else {
-    dropper.classList.add('red')
-  }
-}
+  buttonMouseOver(e) {
+    if (!gameIsLive) return
+    const tile = e.target
+    const [rowIndex, colIndex] = game.getTileLocation(tile)
+    const dropper = dropperArray[colIndex]
+    if (yellowIsNext) {
+      dropper.classList.add('yellow')
+    } else {
+      dropper.classList.add('red')
+    }
+  },
 
-buttonMouseOut = (e) => {
-  const tile = e.target
-  const [rowIndex, colIndex] = getTileLocation(tile)
-  const dropper = dropperArray[colIndex]
-  dropper.classList.remove('yellow')
-  dropper.classList.remove('red')
+  buttonMouseOut(e) {
+    const tile = e.target
+    const [rowIndex, colIndex] = game.getTileLocation(tile)
+    const dropper = dropperArray[colIndex]
+    dropper.classList.remove('yellow')
+    dropper.classList.remove('red')
+  },
 }
-
 //Event Listeners:
 // Drop Buttons
 for (const dropper of dropperArray) {
-  dropper.addEventListener('mouseover', buttonMouseOver)
-  dropper.addEventListener('mouseout', buttonMouseOut)
-  dropper.addEventListener('click', handleTileDropper)
+  dropper.addEventListener('mouseover', game.buttonMouseOver)
+  dropper.addEventListener('mouseout', game.buttonMouseOut)
+  dropper.addEventListener('click', game.handleTileDropper)
 }
 
 
@@ -315,5 +316,5 @@ newGame.addEventListener('click', ()=> {
   gameIsLive = true
   yellowIsNext = true
   status.innerHTML = ''
-  playerTurn()
+  game.playerTurn()
 })
