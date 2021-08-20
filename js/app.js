@@ -148,7 +148,6 @@ const checkStatusOfGame = (tile) => {
   }
   fourInARow = checkWinningTiles(winningTiles)
   if (fourInARow) return
-
 }
 
 
@@ -159,6 +158,14 @@ const clearColorFromButton = (colIndex) => {
   dropper.classList.remove('red')
 }
 
+const playerTurn = () => {
+  if (gameIsLive)
+    if (yellowIsNext) {
+      status.innerHTML = "It is yellow player's turn!"
+    } else {
+      status.innerHTML = "It is red player's turn!"
+    }
+  }
 
 
 
@@ -177,6 +184,7 @@ const handleTileDropper = (e) => {
   yellowIsNext = !yellowIsNext
   clearColorFromButton(colIndex)
   if (gameIsLive) {
+    playerTurn()
     const dropper = dropperArray[colIndex]
     if (yellowIsNext) {
       dropper.classList.add('yellow')
@@ -238,4 +246,5 @@ newGame.addEventListener('click', ()=> {
   gameIsLive = true
   yellowIsNext = true
   status.innerHTML = ''
+  playerTurn()
 })
