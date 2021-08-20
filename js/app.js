@@ -205,6 +205,18 @@ const checkStatusOfGame = (tile) => {
   }
   fourInARow = checkWinningTiles(winningTiles)
   if (fourInARow) return
+
+  const rowsWithOutTop = rows.slice(0, 6)
+  for (const row of rowsWithOutTop) {
+    for (const tile of row) {
+      const classList = getClassListArray(tile)
+      if (!classList.includes('yellow') && !classList.includes('red')) {
+        return
+      }
+    }
+  }
+  gameIsLive = false
+  status.innerHTML = 'Game is a tie!'
 }
 
 
