@@ -8,6 +8,10 @@ const styleElem = document.head.appendChild(document.createElement('style'))
 const rules = document.querySelector('.rules')
 const about = document.querySelector('.about')
 
+//Status and New Game Button
+const status = document.querySelector('.status')
+const newGame = document.querySelector('.newgame')
+
 //Tile Elements
 const allTiles = document.querySelectorAll('.tile:not(.row-top)')
 
@@ -35,7 +39,7 @@ const column5 = [allTiles[40], allTiles[33], allTiles[26], allTiles[19], allTile
 const column6 = [allTiles[41], allTiles[34], allTiles[27], allTiles[20], allTiles[13], allTiles[6], dropper[6]]
 const columns = [column0, column1, column2, column3, column4, column5, column6]
 
-let gameIsLive = true
+let gameIsLive = false
 let yellowIsNext = true
 
 //Functions
@@ -55,7 +59,7 @@ const getTileLocation = (tile) => {
     return [rowNumber, colNumber]
 }
 
-const firstTileCol = (colIndex) => {
+const firstOpenTileCol = (colIndex) => {
   const column = columns[colIndex]
   const columnWithoutDrop = column.slice(0, 6)
   for (const tile of columnWithoutDrop) {
@@ -79,11 +83,17 @@ const getColorOfTile = (tile) => {
 }
 
 const checkWinningTiles = (tiles) => {
-  if (tiles.length < 4) return
+  if (tiles.length < 4) return false
     gameIsLive = false
     for (const tile of tiles) {
     tile.classList.add('win')
+    if (yellowIsNext) {
+      status.innerHTML = 'Yellow has won!'
+    } else {
+      status.innerHTML = 'Red has won!'
+    }
   }
+  return true
 }
 
 const checkStatusOfGame = (tile) => {
@@ -112,7 +122,33 @@ const checkStatusOfGame = (tile) => {
       break
     }
   }
-  checkWinningTiles(winningTiles)
+  let fourInARow = checkWinningTiles(winningTiles)
+  if (fourInARow) return
+  winningTiles = [tile]
+  rowToCheck = rowIndex -1
+  colToCheck = colIndex
+  while (rowToCheck >= 0) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      rowToCheck--
+    } else {
+      break
+    }
+  }
+  rowToCheck = rowIndex + 1
+  while (rowToCheck <= 5) {
+    const tileToCheck = rows[rowToCheck][colToCheck]
+    if (getColorOfTile(tileToCheck) === color) {
+      winningTiles.push(tileToCheck)
+      rowToCheck++
+    } else {
+      break
+    }
+  }
+  fourInARow = checkWinningTiles(winningTiles)
+  if (fourInARow) return
+
 }
 
 
@@ -127,48 +163,59 @@ const clearColorFromButton = (colIndex) => {
 
 
 const handleTileDropper = (e) => {
+  if (!gameIsLive) return
   const tile = e.target
   const [rowIndex, colIndex] = getTileLocation(tile)
-  const openTile = firstTileCol(colIndex)
+  const openTile = firstOpenTileCol(colIndex)
   if (!openTile) return
   if (yellowIsNext) {
     openTile.classList.add('yellow')
   } else {
     openTile.classList.add('red')
   }
+  checkStatusOfGame(openTile)
   yellowIsNext = !yellowIsNext
   clearColorFromButton(colIndex)
+  if (gameIsLive) {
+    const dropper = dropperArray[colIndex]
+    if (yellowIsNext) {
+      dropper.classList.add('yellow')
+  } else {
+      dropper.classList.add('red')
+    }
+  }
+}
+
+const buttonMouseOver = (e) => {
+  if (!gameIsLive) return
+  const tile = e.target
+  const [rowIndex, colIndex] = getTileLocation(tile)
   const dropper = dropperArray[colIndex]
   if (yellowIsNext) {
     dropper.classList.add('yellow')
   } else {
     dropper.classList.add('red')
   }
-  checkStatusOfGame(openTile)
 }
 
-
-
+buttonMouseOut = (e) => {
+  const tile = e.target
+  const [rowIndex, colIndex] = getTileLocation(tile)
+  const dropper = dropperArray[colIndex]
+  dropper.classList.remove('yellow')
+  dropper.classList.remove('red')
+}
 
 //Event Listeners:
 // Drop Buttons
 for (const dropper of dropperArray) {
-  dropper.addEventListener('mouseover', ()=> {
-    if (yellowIsNext) {
-      dropper.classList.add('yellow')
-    } else {
-      dropper.classList.add('red')
-    }
-  })
-  dropper.addEventListener('mouseout', ()=> {
-    dropper.classList.remove('yellow')
-    dropper.classList.remove('red')
-  })
+  dropper.addEventListener('mouseover', buttonMouseOver)
+  dropper.addEventListener('mouseout', buttonMouseOut)
+  dropper.addEventListener('click', handleTileDropper)
 }
 
-for (const dropper of dropperArray) {
-      dropper.addEventListener('click', handleTileDropper)
-}
+
+
 //About Game Button
 about.addEventListener('click', ()=> {
   if (rules.style.display === 'none') {
@@ -178,3 +225,17 @@ about.addEventListener('click', ()=> {
   }
 })
 rules.style.display = 'none'
+
+//New Game Button
+newGame.addEventListener('click', ()=> {
+  for (const row of rows) {
+    for (const tile of row) {
+    tile.classList.remove('yellow')
+    tile.classList.remove('red')
+    tile.classList.remove('win')
+    }
+  }
+  gameIsLive = true
+  yellowIsNext = true
+  status.innerHTML = ''
+})
