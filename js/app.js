@@ -39,8 +39,8 @@ const column6 = [allTiles[41], allTiles[34], allTiles[27], allTiles[20], allTile
 const columns = [column0, column1, column2, column3, column4, column5, column6]
 
 const game = {
-gameIsLive:false,
-yellowIsNext:true,
+  gameIsLive:false,
+  yellowIsNext:true,
 
 
   getClassListArray(tile) {
