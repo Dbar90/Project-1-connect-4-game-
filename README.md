@@ -7,7 +7,7 @@ My game is called Connect Four. It is a game for two players who would like to p
 ## Below you will find a few example pics of the game in action!
 ![image](image/freshpage.png)
 ![image](image/rulesout.png)
-![image](redwin.png)
+![image](image/redwin.png)
 
 ## My User Stories
 
