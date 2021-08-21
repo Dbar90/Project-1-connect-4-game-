@@ -2,9 +2,8 @@ console.log("Connect Four")
 //DOM Elements:
 //Drop Buttons
 const dropper = document.querySelectorAll('.tile.row-top')
-const styleElem = document.head.appendChild(document.createElement('style'))
 
-//About Game Buttons
+//About Game Button/Rules Div
 const rules = document.querySelector('.rules')
 const about = document.querySelector('.about')
 
